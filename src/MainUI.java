@@ -170,12 +170,12 @@ class MainUI {
 
     private void startProcess() {
         String message = "未知错误.";
-        String title = "错误.";
+        String title = "错误";
         int icon = JOptionPane.ERROR_MESSAGE;
         switch (CoreProcess.start(inURL.getText(), outURL.getText())) {
             case 0:
                 message = "成功导出处理数据.";
-                title = "成功.";
+                title = "成功";
                 icon = JOptionPane.INFORMATION_MESSAGE;
                 break;
             case -1:

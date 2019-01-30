@@ -107,7 +107,7 @@ class CoreProcess {
         boolean ret = false;
         String[] list = SettingsUI.ignoreStr.getText().split(",");
         for (String str : list) {
-            if (str.equals(in)) ret = true;
+            if (in.equals(str)) ret = true;
         }
         return ret;
     }
@@ -116,7 +116,7 @@ class CoreProcess {
         boolean ret = false;
         String[] list = SettingsUI.warnStr.getText().split(",");
         for (String str : list) {
-            if (str.equals(in)) ret = true;
+            if (in.contains(str)) ret = true;
         }
         return ret;
     }
