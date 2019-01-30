@@ -1,15 +1,15 @@
 import java.io.*;
 
-public class FileRead {
+class FileRead {
     static String readText(String path){
-        StringBuilder content = new StringBuilder("");
+        StringBuilder content = new StringBuilder();
         try {
             String code = resolveCode(path);
             File file = new File(path);
             InputStream is = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(is, code);
             BufferedReader br = new BufferedReader(isr);
-            String str = "";
+            String str;
             while (null != (str = br.readLine()))
                 content.append(str);
             br.close();
@@ -21,7 +21,6 @@ public class FileRead {
     }
 
     static BufferedReader getBufferedReader(String path){
-        StringBuilder content = new StringBuilder("");
         try {
             String code = resolveCode(path);
             File file = new File(path);

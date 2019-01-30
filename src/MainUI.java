@@ -5,19 +5,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-public class MainUI {
+class MainUI {
     private JPanel ui = new JPanel();
     private JTextField inURL;
     private JTextField outURL;
     private JButton inButton;
     private JButton outButton;
     private JButton processButton;
+    private JButton settingsButton;
     private JTextArea log = new JTextArea();
     private JFileChooser fileChooser = new JFileChooser();
     private FileNameExtensionFilter filter = new FileNameExtensionFilter(
             "逗号分隔符文件(*.csv)", "csv");
+    private SettingsUI settingsUI;
 
-    public MainUI() {
+    MainUI() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -37,11 +39,13 @@ public class MainUI {
         ui.setLayout(null);
         addComponents();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         fileChooser.setFileFilter(filter);
         addListeners();
+        settingsUI = new SettingsUI(frame);
     }
 
     private void addComponents() {
@@ -70,9 +74,13 @@ public class MainUI {
         outButton.setLocation(outURL.getX() + outURL.getWidth(), in.getHeight());
         ui.add(outButton);
         processButton = new JButton("处理");
-        processButton.setSize(in.getWidth() + inURL.getWidth() + inButton.getWidth(), in.getHeight());
+        processButton.setSize(in.getWidth() + inURL.getWidth() + inButton.getWidth() - 70, in.getHeight());
         processButton.setLocation(0, out.getY() + out.getHeight());
         ui.add(processButton);
+        settingsButton = new JButton("设置");
+        settingsButton.setSize(70, processButton.getHeight());
+        settingsButton.setLocation(processButton.getWidth(), processButton.getY());
+        ui.add(settingsButton);
         log.setSize(in.getWidth() + inURL.getWidth() + inButton.getWidth(), 100);
         log.setLocation(0, processButton.getY() + processButton.getHeight());
         log.setEditable(false);
@@ -80,8 +88,8 @@ public class MainUI {
         ui.setPreferredSize(new Dimension(in.getWidth() + inURL.getWidth() + inButton.getWidth(),
                 in.getHeight() + out.getHeight() + processButton.getHeight() + log.getHeight()));
         String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-        if (path.substring(path.length() - 1,path.length()).equals("/"))
-            path = path.substring(0,path.length() - 1);
+        if (path.substring(path.length() - 1).equals("/"))
+            path = path.substring(0, path.length() - 1);
         fileChooser.setCurrentDirectory(new File(path));
     }
 
@@ -118,6 +126,13 @@ public class MainUI {
                 startProcess();
             }
         });
+        settingsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!((JButton)e.getSource()).isEnabled()) return;
+                settingsUI.show();
+            }
+        });
     }
 
     private boolean checkIO() {
@@ -143,12 +158,14 @@ public class MainUI {
         inButton.setEnabled(false);
         outButton.setEnabled(false);
         processButton.setEnabled(false);
+        settingsButton.setEnabled(false);
     }
 
     private void enableButtons() {
         inButton.setEnabled(true);
         outButton.setEnabled(true);
         processButton.setEnabled(true);
+        settingsButton.setEnabled(true);
     }
 
     private void startProcess() {

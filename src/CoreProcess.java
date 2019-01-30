@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class CoreProcess {
+class CoreProcess {
     private static ArrayList<String[]> arrayList;
     static StringBuilder output = new StringBuilder();
 
@@ -56,7 +56,6 @@ public class CoreProcess {
     }
 
     private static boolean processArray(String[] arr) {
-        int i = 0;
         String[] strArray = new String[2];
         boolean wait = false;
         String regEx = "^\\d{9}$"; // 学号
@@ -65,11 +64,10 @@ public class CoreProcess {
         Pattern pattern1 = Pattern.compile(regEx1);
         boolean allCorrect = true;
         for (String str : arr) {
-            if (wait && !str.equals("") && !str.equals("男") && !str.equals("女") && !str.equals("复学") &&
-            !pattern1.matcher(str).find()) {
+            if (wait && !str.equals("") && !checkIgnore(str) && !pattern1.matcher(str).find()) {
                 strArray[1] = str;
                 arrayList.add(strArray);
-                if (str.contains("复学")) {
+                if (checkWarn(str)) {
                     System.out.println("[" + strArray[0] + "," + strArray[1] + "]: 请检查姓名是否存在多余字符.");
                     output.append("[");
                     output.append(strArray[0]);
@@ -103,5 +101,23 @@ public class CoreProcess {
             return false;
         }
         return true;
+    }
+
+    private static boolean checkIgnore(String in) {
+        boolean ret = false;
+        String[] list = SettingsUI.ignoreStr.getText().split(",");
+        for (String str : list) {
+            if (str.equals(in)) ret = true;
+        }
+        return ret;
+    }
+
+    private static boolean checkWarn(String in) {
+        boolean ret = false;
+        String[] list = SettingsUI.warnStr.getText().split(",");
+        for (String str : list) {
+            if (str.equals(in)) ret = true;
+        }
+        return ret;
     }
 }
