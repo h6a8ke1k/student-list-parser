@@ -10,6 +10,10 @@
 1. Convert the Excel file to CSV file(s). If you have multiple tabs, you can only convert one tab a time if you use Microsoft Office Excel.
 2. Select a CSV file as input and input a path for the output file. If the output file already exists, the program will **append** the file instead of *overriding* it.
 
+## Settings
+1. Ignore strings: if the content in a cell **equals** one of the ignore strings, then the content in the cell will be ignored.
+2. Warning strings: if the content in a cell **contains** one of the warning strings, then the content in the cell will trigger a warning message in the log.
+
 
 # 学生列表CSV生成器
 
@@ -22,3 +26,7 @@
 ## 使用方法
 1. 转换包含学生信息的Excel文件，输出为CSV格式。如果Excel文件有多个标签，用Microsoft Office一次只能保存一个标签。
 2. 选择一个CSV文件作为输入，指定一个CSV为输出。如果输出文件已经存在，程序会把结果**附加**到文件末尾，而非*覆盖*它。
+
+## 设置
+1. 忽略字符串：如果一个单元格的内容与忽略字符串之一**相同**，那么单元格的内容将被忽略。
+2. 警告字符串：如果一个单元格的内容**包含**警告字符串之一，那么单元格的内容将触发一条日志中的警告。
